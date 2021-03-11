@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using API.Data;
 using DatingApp.API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
 
@@ -18,6 +17,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<AppUser>> GetUsers()
         {
             var users = _context.Users.ToList();
@@ -25,6 +25,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<AppUser> GetUser(int id)
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
